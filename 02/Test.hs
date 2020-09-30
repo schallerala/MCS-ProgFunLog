@@ -11,6 +11,7 @@ main = hspec $ do
     describe "S02 Lists et récursivité - Exercice 1" $ do
         it "f1" $ do
             f1 [4,8,2,7,9,3] `shouldBe` [4,8,2]
+            f1' [4,8,2,7,9,3] `shouldBe` [4,8,2]
         it "fibonacci" $ do
             fibonacci 0 `shouldBe` 0
             fibonacci 1 `shouldBe` 1

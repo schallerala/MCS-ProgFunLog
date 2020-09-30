@@ -5,14 +5,13 @@ import Data.Char
 -- #############################################################
 -- Ex 1
 -- without pattern
-f11 (a:b:c:d) = [a,b,c]
-f11 l = l
+f1 (a:b:c:d) = [a,b,c]
+f1 l = l
 
 -- with pattern
-f12 l =
-  if (length l) < 3
-    then l
-    else take 3 l
+f1' l = if length l < 3
+  then l
+  else take 3 l
 
 fibonacci 0 = 0
 fibonacci 1 = 1
@@ -56,10 +55,6 @@ myDeleteAll e (x:y) =
   if (e == x)
     then myDeleteAll e y
     else x:(myDeleteAll e y)
-
-f1 l = if length l < 3
-        then l
-        else take 3 l
 
 -- #############################################################
 -- Ex 3

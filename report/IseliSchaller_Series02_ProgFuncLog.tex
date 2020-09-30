@@ -1,0 +1,106 @@
+% !TeX root = ./IseliSchaller_Series02_ProgFuncLog.tex
+
+\input{model}
+
+\title{
+    %\vspace{-2cm}
+    \unilogo[0.3\textwidth]\\[0.9cm]
+    Programmation fonctionnelle et Logique\\Haskell (Listes et récursivité)
+}
+\student{
+    Yael Iseli \& A. Schaller\\
+    \texttt{14-8215-24} \& \texttt{16-896-375}
+}
+\prof{Stéphane Le Peutrec}
+
+\seriesnumber{2}
+\author{\thestudent\theprof}
+
+\lhead{\unilogo}
+\rhead{\thestudent\\\theseriesnumber}
+
+% \pgfplotsset{compat=newest}
+
+% \usepackage[backend=bibtex, style=numeric, citestyle=numeric, sorting=none, backref, backrefstyle=none]{biblatex}
+% use "biber report" command to generate
+
+% \addbibresource{biblio.bib}
+
+
+\raggedbottom % To avoid stretching the items to fill a page
+% ---------------------- DOCUMENT ----------------------------
+\begin{document}
+
+\maketitle
+
+%
+%
+% ---------------------------------
+\section*{\theseriesnumber}
+
+À travers les 4 exercices de la deuxième série,
+nous devions réaliser plusieurs implémentations de fonction en utilisant ou non les motifs.
+
+Comme plusieurs exemples sont donnés pour vérifier le comportement des fonctions,
+nous étions intéressés de découvrir les solutions de tests disponibles dans l'écosystème \emph{Haskell}.
+
+Rapidement, nous avons découvert \emph{hspec}\footnotelink{https://hspec.github.io/}{sept. 2020}.
+Ses avantages sont:
+\begin{itemize}
+    \item il utilise une structure similaire à de nombreux aux frameworks de tests, tels que \emph{Jasmine}\footnotelink{https://jasmine.github.io/}{sept. 2020}, \emph{mocha}\footnotelink{https://mochajs.org/}{sept. 2020} et pleins d'autres.
+    \item une prise en main qui parait rapide et simple avec \emph{cabal}\footnotelink{https://www.haskell.org/cabal/}{sept. 2020}.
+\end{itemize}
+
+Pour le dernier point, l'environnement du packages/librairies manager \emph{cabal} semble varier entre les systèmes.
+Dans tous les cas, c'est une question d'un argument en plus un moins et de l'installation d'un, deux packages supplémentaires.
+
+Dans tous les cas, nous sommes arrivé à pouvoir lancer les tests sur nos implémentations sans
+devoir configurer un projet \emph{cabal} complet.
+
+\begin{lstlisting}[language=bash,caption={Installation du package \emph{hspec}}]
+cabal update && cabal install hspec
+# dans certains cas, l'option --lib est nécessaire
+# il est également possible de devoir installer 'QuickCheck'
+# et 'base'
+\end{lstlisting}
+
+Finalement, nous pouvons exécuter nos tests que nous déclarons dans le \texttt{main} avec la commande \texttt{runhaskell}.
+Le résultat obtenu dans le terminal est présenté dans la \simpleref{fig:tests_results}.
+
+\begin{figure}[H]
+    \center
+    \includegraphics[width=0.9\textwidth]{series02/tests_results}
+    \caption{\emph{hspec} tests results\label{fig:tests_results}}
+\end{figure}
+
+%
+%
+% ---------------------------------
+\section*{Accès au code source}
+Comme convenu, nous partageons le code source des séries sur notre \emph{Github} à l'adresse:
+\begin{itemize}
+    \item \url{https://github.com/schallerala/MSc-ProgFunLog}
+\end{itemize}
+
+
+
+% \notice{
+%     Si le package \emph{hspec} ne suffit pas, il est possible qu'il soit nécessaire d'expliciter l'installation de \emph{QuickCheck} et \emph{base}
+% }
+
+%{
+%\hypersetup{hidelinks}
+%\printglossary % style=list2
+%\printglossary[type=\acronymtype]
+%}
+
+% \section*{References}
+% \printbibliography[heading=none]
+
+
+%\section*{Appendix}
+%\begin{itemize}
+%   \item Exercise 1 \gls{Excel} spreadsheet\cite{s02-ex01-excel}
+%\end{itemize}
+
+\end{document}

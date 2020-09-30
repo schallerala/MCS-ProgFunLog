@@ -1,0 +1,51 @@
+\documentclass[12pt]{article}
+
+\usepackage[
+    a4paper,
+    hmargin=2cm, vmargin=1.3cm,
+    headheight=38pt, % as per the warning by fancyhdr
+    includehead, includefoot
+]{geometry}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{fancyhdr} % extensice control of page headers and footers
+\usepackage{graphicx}
+\usepackage{parskip} % add space between paragraphs and remove first line's indent
+\usepackage[dvipsnames]{xcolor} % color the text for the color code: https://en.wikibooks.org/wiki/LaTeX/Colors
+
+
+\usepackage{enumitem}
+
+% ---------------- SETUP HEADER & FOOTER ----------------------
+\pagestyle{fancy}
+% \fancyhf{} % sets both header and footer to nothing
+% \renewcommand{\headrulewidth}{0pt} % remove headers bottom line
+
+\def\code#1{\texttt{#1}}
+
+\newcommand{\unilogo}[1][0.16\textwidth]{\includegraphics[width=#1]{logo_uni}}
+
+\newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1} \nameref*{#1}}} % https://tex.stackexchange.com/a/121871
+
+\newcommand{\commentcolor}{\color{Gray}}
+
+
+\newcounter{question}
+\newcommand{\questioncolor}{\color{MidnightBlue}}
+\def\newquestion#1{
+    \refstepcounter{question}
+    {
+        \textbf{Exercise~\thequestion:}
+        \questioncolor
+        \emph{#1}
+    }
+}
+\def\question#1{
+    {
+        \questioncolor
+        \emph{#1}
+    }
+}

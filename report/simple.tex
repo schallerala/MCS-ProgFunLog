@@ -1,0 +1,69 @@
+\include{model}
+
+\makeatletter
+\newcommand{\prof}[1]{\def\@prof{#1}}
+\newcommand{\theprof}{\@ifundefined{@prof}{}{\\Prof.: \@prof}}
+\newcommand{\student}[1]{\def\@student{#1}}
+\newcommand{\thestudent}{\@ifundefined{@student}{}{\@student}}
+\newcommand{\seriesnumber}[1]{\def\@seriesnumber{#1}}
+\newcommand{\theseriesnumber}{\@ifundefined{@seriesnumber}{}{Series \@seriesnumber}}
+\makeatother
+
+\title{\vspace{-2cm}\unilogo[0.3\textwidth]\\[0.9cm]Série 1 -- Programmation fonctionnelle\\Haskell}
+\student{Alain Schaller \& Yael Iseli\\\texttt{16-896-375} \& \texttt{14-8215-24}}
+\prof{Stéphane Le Peutrec}
+\seriesnumber{1}
+\author{\thestudent\theprof}
+
+\lhead{\unilogo}
+\rhead{\thestudent\\\theseriesnumber}
+
+% ---------------------- DOCUMENT ----------------------------
+\begin{document}
+
+% \textsc{\LARGE Secure code review}\\%[0.2em]
+%\large{\color{gray} ...}\\
+
+\maketitle
+
+%
+%
+% ---------------------------------
+\section*{Introduction}
+
+\setcounter{question}{1}
+\newquestion{GHCi + tutoriel}
+
+\begin{enumerate}[label=\questioncolor\alph*)]
+    \item \question{Prenez connaissance des diverses commandes prédéfinies, (accessibles depuis la commande
+    \texttt{:help}), essayez entre autres la commande \texttt{:t} et la commande \texttt{:set prompt}}
+
+
+
+    \begin{description}
+        \item[\questioncolor\texttt{:t (==)}]
+        \item[\questioncolor\texttt{:i (==)}]
+        \item[\questioncolor\texttt{:t max}]
+    \end{description}
+
+\end{enumerate}
+
+\newquestion{Create yours first functions}
+
+\begin{enumerate}[label=\questioncolor\alph*)]
+    \item \question{A function that calculates the sum of 4 parameters of type \texttt{Int}}
+
+
+
+    \item \question{A function \texttt{max3} that calculates the maximal value of 3 parameters of type \texttt{Int}. Implement 5 versions of this function : at least one using if, at least one using the guards and at least one using where. You can use the predefined function max.}
+
+
+
+    \item \question{A function \texttt{sign} with a parameter of type \texttt{Int} and \texttt{returns} the string "this number is positive" if the
+    number is positive, "this number is negative" if the number is negative and "this number is \texttt{null}" if the number is $0$. Submit a version with if, a version with guard.\\\commentcolor---\\
+    Note: The ++ operator appends strings.}
+
+\end{enumerate}
+
+
+\end{document}

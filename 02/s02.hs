@@ -1,3 +1,5 @@
+module S02 where
+
 import Data.Char
 
 -- #############################################################
@@ -39,7 +41,6 @@ myDelete e (x:y) =
     then y
     else x:(myDelete e y)
 
-myMaximum [] = []
 myMaximum [x] = x
 myMaximum (x:y)
   | max < x = x
@@ -83,30 +84,6 @@ analyseStrings (x1 : x) = tupleLength x1 : analyseStrings x
     where tupleLength x1 = (x1, length x1)
 analyseStrings x = []
 
-analyseString2 ( x1 : x ) = tupleLengthVowel x1 : analyseString2 x
+analyseStrings2 ( x1 : x ) = tupleLengthVowel x1 : analyseStrings2 x
     where tupleLengthVowel x1 = (x1, length x1, countVowel x1)
-analyseString2 x = []
-
-
--- #############################################################
-main = do
-  print (f11 [1,2,3,4,5])
-  print (f11 [1,2])
-  print (f12 [1,2,3,4,5])
-  print (f12 [1,2])
-  print (fibonacci 6)
-
-  print (myLast [4,8,2])
-  print (myDelete 5 [1,5,7,5,8])
-  print (myMaximum [1,5,7,5])
-  print (myLength [1,5,7])
-  print (myDeleteAll 5 [1,5,7,5,8])
-
-  print (scalarProduct [1,2,3] [4,5,6,7])
-  print (toUpperString "heLloi")
-  print (countVowel "hello")
-
-  print (analyseStrings ["hello","him","char"])
-  print (analyseStrings2 ["hello","him","char"])
---main :: IO ()
---main = print (f1 [4,8,2,7,9,3])
+analyseStrings2 x = []

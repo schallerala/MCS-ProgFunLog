@@ -17,10 +17,6 @@ fibonacci 0 = 0
 fibonacci 1 = 1
 fibonacci n = (fibonacci (n-1)) + (fibonacci (n-2))
 
---f1' (x1 : x2 : x3 : x) = [x1, x2, x3]
---f1' x = x
-
-
 --fibonacci 0 = 0
 --fibonacci 1 = 1
 --fibonacci x = fibonacci (x - 1) + fibonacci (x - 2)

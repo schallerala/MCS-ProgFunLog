@@ -1,3 +1,5 @@
+module EX01 where
+
 import Data.Char
 
 {-
@@ -11,7 +13,7 @@ myLength :: Num a => [t] -> a
 myLength l = sum [1 | _ <- l]
 
 {-
-cette fonction prend en paramètre un élément (comparable) et une liste 
+cette fonction prend en paramètre un élément (comparable) et une liste
 et retourne en résultat la même liste mais sans l'élément indiqué
 
 Exemple:

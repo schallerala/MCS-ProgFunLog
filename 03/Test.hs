@@ -23,7 +23,7 @@ main = hspec $ do
         it "flatten" $ do
             flatten [[2,3],[4,2,7],[6,9]] `shouldBe` [2,3,4,2,7,6,9]
         it "quicksort" $ do
-            quicksort [7,13,4,2,7,34,1,9] `shouldBe` [1,2,4,7,9,13,34]
+            quicksort [7,13,4,2,7,34,1,9] `shouldBe` [1,2,4,7,7,9,13,34]
         it "partitions" $ do -- improve
             partitions [1,2,3] `shouldBe` [[],[3],[2],[2,3],[1],[1,3],[1,2],[1,2,3]]
         it "permutations" $ do -- improve

@@ -18,7 +18,7 @@ Exemple:
 quicksort :: Ord a => [a] -> [a]
 quicksort [] = []
 quicksort [l] = [l]
-quicksort (l:ls) = quicksort [x | x <- ls, x < l] ++ l:(quicksort [x | x <- ls, x > l])
+quicksort (l:ls) = quicksort [x | x <- ls, x <= l] ++ l:(quicksort [x | x <- ls, x > l])
 
 {-
 cette fonction prend en paramètre une liste et retourne toutes les

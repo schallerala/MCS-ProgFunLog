@@ -1,3 +1,4 @@
+module EX02 where
 
 {-
 cette fonction prend en paramètre une liste et retourne la liste applatie,
@@ -28,7 +29,7 @@ Exemple:
 * [1,2,3] retourne [[],[3],[2],[2,3],[1],[1,3],[1,2],[1,2,3]]
 -}
 partitions :: [a] -> [[a]]
-partitions [] = [[]]  
+partitions [] = [[]]
 partitions (l:ls) = (partitions ls) ++ [l:x | x <- (partitions ls)]
 
 -- s02

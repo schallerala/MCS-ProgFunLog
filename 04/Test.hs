@@ -39,6 +39,6 @@ main = hspec $ do
          it "calculatePolynomial avec récursion" $ do
              calculatePolynomial1 [(2,1), (4,2), (-2,4)] 3 `shouldBe` -120
          it "calculatePolynomial avec liste de compréhension" $ do
-             calculatePolynomial1 [(2,1), (4,2), (-2,4)] 3 `shouldBe` -120
+             calculatePolynomial2 [(2,1), (4,2), (-2,4)] 3 `shouldBe` -120
          it "calculatePolynomial avec fonction d'ordre supérieur et fonction anonyme" $ do
-             calculatePolynomial1 [(2,1), (4,2), (-2,4)] 3 `shouldBe` -120
+             calculatePolynomial3 [(2,1), (4,2), (-2,4)] 3 `shouldBe` -120

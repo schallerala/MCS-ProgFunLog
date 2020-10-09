@@ -32,8 +32,8 @@ main = hspec $ do
             perfectNumber 5 `shouldBe` False
             perfectNumber 7 `shouldBe` False
         it "perfectNumbers" $ do
-            perfectNumbers 2 `shouldBe` [6,28]
-            -- perfectNumbers 4 `shouldBe` [6,28,496,8128]
+            -- perfectNumbers 2 `shouldBe` [6,28]
+            perfectNumbers 4 `shouldBe` [6,28,496,8128]
 
     describe "S04 fonctions d'ordre supérieur - Exercice 2" $ do
          it "calculatePolynomial avec récursion" $ do

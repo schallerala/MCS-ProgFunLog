@@ -12,6 +12,7 @@ main = hspec $ do
     describe "S04 fonctions d'ordre supérieur - Exercice 1" $ do
         it "myInsert" $ do
             myInsert 7 [2,5,8,9] `shouldBe` [2,5,7,8,9]
+            myInsert 11 [2,5,8,9] `shouldBe` [2,5,8,9,11]
         it "insertionSort" $ do
             insertionSort [7,13,4,2,7,34,1,9] `shouldBe` [1,2,4,7,7,9,13,34]
         it "myTakeWhile" $ do
@@ -26,13 +27,13 @@ main = hspec $ do
             divisorsList 9 `shouldBe` [1,3]
             divisorsList' 9 `shouldBe` [1,3]
             divisorsList'' 9 `shouldBe` [1,3]
-            divisorsList''' 9 `shouldBe` [1,3]
         it "perfectNumber" $ do
             perfectNumber 6 `shouldBe` True
             perfectNumber 5 `shouldBe` False
             perfectNumber 7 `shouldBe` False
         it "perfectNumbers" $ do
-            perfectNumbers 4 `shouldBe` [6,28,496,8182]
+            perfectNumbers 2 `shouldBe` [6,28]
+            -- perfectNumbers 4 `shouldBe` [6,28,496,8128]
 
     describe "S04 fonctions d'ordre supérieur - Exercice 2" $ do
          it "calculatePolynomial avec récursion" $ do

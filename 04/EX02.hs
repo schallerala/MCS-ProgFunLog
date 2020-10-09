@@ -21,9 +21,3 @@ calculatePolynomial2 poly v = sum [ c * v ^ d | (c,d) <- poly]
 -- version avec fonction anonyme et fonction d'ordre supérieur
 calculatePolynomial3 :: (Integral b, Num a) => [(a, b)] -> a -> a
 calculatePolynomial3 poly v =  sum (map (\(c,d) -> c * v ^d) poly)
-
-
-main = do
-  print (calculatePolynomial1 [(2,1), (4,2), (-2,4)] 3)
-  print (calculatePolynomial2 [(2,1), (4,2), (-2,4)] 3)
-  print (calculatePolynomial3 [(2,1), (4,2), (-2,4)] 3)

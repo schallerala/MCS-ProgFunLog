@@ -43,7 +43,6 @@ Développez trois versions de cette fonction :
 myIntersect :: [a] -> [a] -> [a]
 myIntersect = undefined
 -- Ordre supérieur
-myIntersect' :: [a] -> [a] -> [a]
 myIntersect' = undefined
 -- liste en compréhension
 myIntersect'' :: [a] -> [a] -> [a]

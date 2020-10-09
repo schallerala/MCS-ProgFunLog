@@ -1,6 +1,7 @@
 module Test where
 
 import EX01
+import EX02
 
 import Test.Hspec
 import Test.QuickCheck
@@ -33,12 +34,10 @@ main = hspec $ do
         it "perfectNumbers" $ do
             perfectNumbers 4 `shouldBe` [6,28,496,8182]
 
-    -- describe "S04 fonctions d'ordre supérieur - Exercice 2" $ do
-    --     it "flatten" $ do
-    --         flatten [[2,3],[4,2,7],[6,9]] `shouldBe` [2,3,4,2,7,6,9]
-    --     it "quicksort" $ do
-    --         quicksort [7,13,4,2,7,34,1,9] `shouldBe` [1,2,4,7,7,9,13,34]
-    --     it "partitions" $ do -- improve
-    --         partitions [1,2,3] `shouldBe` [[],[3],[2],[2,3],[1],[1,3],[1,2],[1,2,3]]
-    --     it "permutations" $ do -- improve
-    --         permutations [1,2,3] `shouldBe` [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+    describe "S04 fonctions d'ordre supérieur - Exercice 2" $ do
+         it "calculatePolynomial avec récursion" $ do
+             calculatePolynomial1 [(2,1), (4,2), (-2,4)] 3 `shouldBe` -120
+         it "calculatePolynomial avec liste de compréhension" $ do
+             calculatePolynomial1 [(2,1), (4,2), (-2,4)] 3 `shouldBe` -120
+         it "calculatePolynomial avec fonction d'ordre supérieur et fonction anonyme" $ do
+             calculatePolynomial1 [(2,1), (4,2), (-2,4)] 3 `shouldBe` -120

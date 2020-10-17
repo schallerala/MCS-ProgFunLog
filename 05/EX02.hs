@@ -10,7 +10,7 @@ de tokens. Les tokens reconnus pour ce langage sont :
 * end_block qui est exprimé par le caractère '}'
 * begin_par qui est exprimé par le caractère '('
 * end_par qui est exprimé par le caractère ')'
-* seminolon qui est exprimé par le caractère ';'
+* semicolon qui est exprimé par le caractère ';'
 * op_eg qui est exprimé par la suite de caractère "=="
 * op_affect qui est exprimé par le caractère '='
 * op_add qui est exprimé par le caractère '+'
@@ -146,7 +146,7 @@ t3 = (
             ]
 
         ),
-        "bengin_par" -- Code
+        "begin_par" -- Code
     )
 
 {-
@@ -170,7 +170,7 @@ t4 = (
     )
 
 {-
-seminolon : ';'
+semicolon : ';'
 -}
 t5 :: Token
 t5 = (
@@ -186,7 +186,7 @@ t5 = (
             ]
 
         ),
-        "semiolon" -- Code
+        "semicolon" -- Code
     )
 
 {-
@@ -245,7 +245,7 @@ t8 = (
             [ -- Transition
                 (
                     0, -- initial state
-                    (== '1'), -- char predicate
+                    (== '+'), -- char predicate
                     1 -- following state
                 )
             ]
@@ -498,8 +498,8 @@ Reprenez et adaptez au besoin les fonctions isToken, recognizedFromState,
 isFinalState, nextState de la seconde partie de l'exercice 3 de la série 3.
 -}
 getToken :: String -> [Token] -> Code
-getToken [] _ = error "Empty token is invalid"
-getToken _ [] = error "Didn't find any corresponding token for the given string"
+getToken [] _ = error "Empty string is invalid"
+getToken xs [] = error ("Didn't find any corresponding token for the given string: " ++ xs ++ "!")
 getToken xs ((sm, code): sms) = if isToken xs sm
     then code
     else getToken xs sms
@@ -586,8 +586,10 @@ Exemple :
 Exemple : l'appel
 * `lexAnalyse "int x ; int y ; x = y * 2 ; " <liste des tokens du langage>` retourne la liste
 `["type_int", "ident", "semicolon", "type_int", "ident", "semicolon",
-"ident", "op_affect", "ident", "op_mult", "value_int", "semilocon"]`
+"ident", "op_affect", "ident", "op_mult", "value_int", "semicolon"]`
 -}
 lexAnalyse :: String -> [Token] -> [Code]
+lexAnalyse [] _ = error "Empty string is invalid"
+lexAnalyse _ [] = error "Can't correspond the given string with no known token!"
 lexAnalyse xs ts = map (`getToken` ts) xss
     where xss = words xs

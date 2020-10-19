@@ -15,7 +15,6 @@ fibo' 0 acc = acc
 fibo' 1 acc = acc + 1
 fibo' n acc = fibo' (n-2) (fibo' (n-1) acc)
 
-
 -- avec programmation continue
 fibo'' :: (Eq a1, Num a1, Num t, Num a2) => a1 -> (t -> a2) -> a2
 fibo'' 0 cont = cont 0
@@ -81,7 +80,7 @@ myFlatten'''' list = foldr (\x acc -> x ++ acc) [] list
 
 
 {-
-etourne la liste sans toutes ses occurrences de e
+cette fonction retourne la liste sans toutes ses occurrences de e
 
 Exemple :
 * `deleteAll 3 [1,2,3,2,3]` retourne `[1,2,2]`

@@ -129,4 +129,5 @@ myInsert' e (x:xs) acc =
 -- avec programmation par continuation
 myInsert'' :: Ord a => a -> [a] -> ([a] -> p) -> p
 myInsert'' _ [] cont = cont []
-myInsert'' e (x:y:xs) cont = myInsert'' e xs (\z -> if e <= x then cont (e:x:y:z) else cont (x:y:z))
+myInsert'' e [x] cont = if e >= x then cont [x,e] else cont [x]
+myInsert'' e (x:y:xs) cont = myInsert'' e (y:xs) (\z -> if e >= x && e <= y then cont (x:e:z) else cont (x:z))

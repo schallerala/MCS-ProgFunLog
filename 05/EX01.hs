@@ -106,8 +106,10 @@ deleteAll' e list = del e list (\x -> x) where
 -- avec plis
 deleteAll'' :: Eq a => a -> [a] -> [a]
 deleteAll'' _ [] = []
-deleteAll'' e list = foldr (\x acc -> if x /= e then x : acc else acc) [] list
-
+deleteAll'' e list = foldr fold [] list where
+    fold x acc
+        | x /= e = x:acc 
+        | otherwise = acc
 
 {-
 cette fonction prend en paramètre une valeur et une liste triée par ordre

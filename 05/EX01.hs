@@ -7,19 +7,18 @@ Exemple :
 -}
 
 -- avec accumulateur
-fibo :: (Eq a, Num a, Num t) => a -> t
-fibo n = fibo' n 0
-
-fibo' :: (Eq a, Num a, Num t) => a -> t -> t
-fibo' 0 acc = acc
-fibo' 1 acc = acc + 1
-fibo' n acc = fibo' (n-2) (fibo' (n-1) acc)
+fibo :: Int -> Int
+fibo n = fib n 0 1 where
+    fib 0 acc1 _ = acc1
+    fib n acc1 acc2 = fib (n-1) acc2 $! acc1 + acc2
 
 -- avec programmation continue
-fibo'' :: (Eq a1, Num a1, Num t, Num a2) => a1 -> (t -> a2) -> a2
-fibo'' 0 cont = cont 0
-fibo'' 1 cont = cont 1
-fibo'' n cont = fibo'' (n-1) (\x -> cont x + (fibo (n-2)))
+fibo' :: Int -> Int
+fibo' n = fib n (\x -> x) where
+    fib :: Int -> (Int -> Int) -> Int
+    fib 0 cont = cont 0
+    fib 1 cont = cont 1
+    fib n cont = fib (n-1) (\acc1 -> fib (n-2) (\acc2 -> cont acc1 + acc2))
 
 {-
 cette fonction retourne le produit des éléments de la liste passée en paramètre
@@ -29,25 +28,22 @@ Exemple :
 -}
 -- avec accumulateur
 myProduct :: Num t => [t] -> t
-myProduct list = myProduct' list 1
-
-myProduct' :: Num t => [t] -> t -> t
-myProduct' [] acc = acc
-myProduct' (x:xs) acc = myProduct' xs (acc * x)
-
-factCont :: (Eq t, Num t) => t -> (t -> p) -> p
-factCont 0 cont = cont 1
-factCont n cont = factCont (n-1) (\x -> cont (n * x))
+myProduct list = myProd list 1 where
+    myProd :: Num t => [t] -> t -> t
+    myProd [] acc = acc
+    myProd (x:xs) acc = myProd xs $! (acc * x)
 
 -- avec programmation par continuation
-myProduct'' :: Num a => [a] -> (a -> a) -> a
-myProduct'' [] cont = cont 0
-myProduct'' [x] cont = cont x
-myProduct'' (x:xs) cont = myProduct'' xs (\y -> cont x*y)
+myProduct' :: Num a => [a] -> a
+myProduct' list = myProd list (\x -> x) where
+    myProd :: Num a => [a] -> (a -> a) -> a
+    myProd [] cont = cont 0
+    myProd [x] cont = cont x
+    myProd (x:xs) cont = myProd xs (\y -> cont x*y)
 
 -- avec plis
-myProduct''' :: (Foldable t, Num a) => t a -> a
-myProduct''' list = foldl1 (\acc x -> acc * x) list
+myProduct'':: (Foldable t, Num a) => t a -> a
+myProduct'' list = foldl1 (\acc x -> acc * x) list
 
 
 {-
@@ -59,24 +55,26 @@ Exemple :
 -}
 -- avec accumulateur
 myFlatten :: [[a]] -> [a]
-myFlatten list = myFlatten' list []
+myFlatten list = myFlat list [] where
+    myFlat :: [[a]] -> [a] -> [a]
+    myFlat [] acc = acc
+    myFlat (x:xs) acc = myFlat xs $! (acc ++ x)
 
-myFlatten' :: [[a]] -> [a] -> [a]
-myFlatten' [] acc = acc
-myFlatten' (x:xs) acc = myFlatten' xs (acc ++ x)
 -- avec programmation par continuation
-myFlatten'' :: [[a]] -> ([a] -> [a]) -> [a]
-myFlatten'' [] cont = cont []
-myFlatten'' [x] cont = cont x
-myFlatten'' (x:xs) cont = myFlatten'' xs (\y -> cont x ++ y)
+myFlatten' :: [[a]] -> [a]
+myFlatten' list = myFlat list (\x -> x) where
+    myFlat :: [[a]] -> ([a] -> [a]) -> [a]
+    myFlat [] cont = cont []
+    myFlat [x] cont = cont x
+    myFlat (x:xs) cont = myFlat xs (\y -> cont x ++ y)
 
 -- avec plis à gauche
-myFlatten''' :: Foldable t => t [a] -> [a]
-myFlatten''' list = foldl (\acc x -> acc ++ x) [] list
+myFlatten'' :: Foldable t => t [a] -> [a]
+myFlatten'' list = foldl (\acc x -> acc ++ x) [] list
 
 -- avec plis à droite
-myFlatten'''' :: Foldable t => t [a] -> [a]
-myFlatten'''' list = foldr (\x acc -> x ++ acc) [] list
+myFlatten''' :: Foldable t => t [a] -> [a]
+myFlatten''' list = foldr (\x acc -> x ++ acc) [] list
 
 
 {-
@@ -88,24 +86,26 @@ Exemple :
 -}
 -- avec accumulateur
 deleteAll :: Eq a => a -> [a] -> [a]
-deleteAll e list = deleteAll' e list []
-
-deleteAll' :: Eq a => a -> [a] -> [a] -> [a]
-deleteAll' _ [] acc = acc
-deleteAll' e (x:xs) acc = 
-    if (e == x)
-        then deleteAll' e xs acc
-        else deleteAll' e xs (acc ++ [x])
+deleteAll e list = del e list [] where
+    del:: Eq a => a -> [a] -> [a] -> [a]
+    del _ [] acc = acc
+    del e (x:xs) acc
+        | e == x = del e xs acc
+        | otherwise = del e xs $! (acc ++ [x])
 
 -- avec programmation par continuation
-deleteAll'' :: Eq a => a -> [a] -> ([a] -> p) -> p
-deleteAll'' _ [] cont = cont []
-deleteAll'' e (x:xs) cont = deleteAll'' e xs (\y -> if e /= x then cont (x:y) else cont y)
+deleteAll' :: Eq a => a -> [a] -> [a]
+deleteAll' e list = del e list (\x -> x) where
+    del :: Eq a => a -> [a] -> ([a] -> p) -> p
+    del _ [] cont = cont []
+    del e (x:xs) cont
+        | e /= x = del e xs (\y -> cont (x:y))
+        | otherwise = del e xs (\y -> cont y)
 
 -- avec plis
-deleteAll''' :: Eq a => a -> [a] -> [a]
-deleteAll''' _ [] = []
-deleteAll''' e list = foldr (\x acc -> if x /= e then x : acc else acc) [] list
+deleteAll'' :: Eq a => a -> [a] -> [a]
+deleteAll'' _ [] = []
+deleteAll'' e list = foldr (\x acc -> if x /= e then x : acc else acc) [] list
 
 
 {-
@@ -116,18 +116,23 @@ Exemple :
 -}
 -- avec accumulateur
 myInsert :: Ord a => a -> [a] -> [a]
-myInsert e list = myInsert' e list []
-
-myInsert' :: Ord a => a -> [a] -> [a] -> [a]
-myInsert' _ [] acc = acc
-myInsert' e (x:xs) acc = 
-    if e < x
-        then acc ++ [e] ++ (x:xs)
-        else myInsert' e xs (acc ++ [x])
+myInsert e list = insert e list [] where
+    insert :: Ord a => a -> [a] -> [a] -> [a]
+    insert _ [] acc = acc
+    insert e (x:xs) acc
+        | e < x =  acc ++ [e] ++ (x:xs)
+        | otherwise = insert e xs (acc ++ [x])
 
 
 -- avec programmation par continuation
-myInsert'' :: Ord a => a -> [a] -> ([a] -> p) -> p
-myInsert'' _ [] cont = cont []
-myInsert'' e [x] cont = if e >= x then cont [x,e] else cont [x]
-myInsert'' e (x:y:xs) cont = myInsert'' e (y:xs) (\z -> if e >= x && e <= y then cont (x:e:z) else cont (x:z))
+myInsert' :: Ord a => a -> [a] -> [a]
+myInsert' e list = insert e list (\x -> x) where
+    insert :: Ord a => a -> [a] -> ([a] -> p) -> p
+    insert _ [] cont = cont []
+    insert e [x] cont
+        | e >= x = cont [x,e] 
+        | otherwise = cont [x]
+    insert e (x:xs) cont
+        | e <= x = cont (e:x:xs)
+        | otherwise = insert e xs (\y -> cont (x:y))
+        

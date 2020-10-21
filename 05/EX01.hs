@@ -9,7 +9,8 @@ Exemple :
 -- avec accumulateur
 fibo :: Int -> Int
 fibo n = fib n 0 1 where
-    fib 0 acc1 _ = acc1
+    fib :: Int -> Int -> Int -> Int
+    fib 0 acc1 _  = acc1
     fib n acc1 acc2 = fib (n-1) acc2 $! acc1 + acc2
 
 -- avec programmation continue

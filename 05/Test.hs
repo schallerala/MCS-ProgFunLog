@@ -28,6 +28,7 @@ main = hspec $ do
             myFlatten'' [[2,3], [4,2,7], [6,9]] `shouldBe` [2,3,4,2,7,6,9]
             myFlatten''' [[2,3], [4,2,7], [6,9]] `shouldBe` [2,3,4,2,7,6,9]
         it "deleteAll" $ do
+            deleteAll 5 [] `shouldBe` []
             deleteAll 5 [2,3,4,5,2,5,7,6,9] `shouldBe` [2,3,4,2,7,6,9]
             deleteAll' 5 [2,3,4,5,2,5,7,6,9] `shouldBe` [2,3,4,2,7,6,9]
             deleteAll'' 5 [2,3,4,5,2,5,7,6,9] `shouldBe` [2,3,4,2,7,6,9]

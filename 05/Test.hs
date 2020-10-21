@@ -38,6 +38,7 @@ main = hspec $ do
             myInsert' 7 [2,5] `shouldBe` [2,5,7]
             myInsert' 7 [8,9] `shouldBe` [7,8,9]
             myInsert' 7 [2] `shouldBe` [2,7]
+            myInsert' 7 [] `shouldBe` [7]
 
     describe "S05 Récursivité terminale - Exercice 2" $ do
         it "declaring tokens" $ do

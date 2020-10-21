@@ -128,9 +128,9 @@ myInsert e list = insert e list [] where
 myInsert' :: Ord a => a -> [a] -> [a]
 myInsert' e list = insert e list (\x -> x) where
     insert :: Ord a => a -> [a] -> ([a] -> p) -> p
-    insert _ [] cont = cont []
+    insert e [] cont = cont [e]
     insert e [x] cont
-        | e >= x = cont [x,e] 
+        | e > x = cont [x,e] 
         | otherwise = cont [x]
     insert e (x:xs) cont
         | e <= x = cont (e:x:xs)

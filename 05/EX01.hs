@@ -29,6 +29,7 @@ Exemple :
 -}
 -- avec accumulateur
 myProduct :: Num t => [t] -> t
+myProduct [] = 0
 myProduct list = myProd list 1 where
     myProd :: Num t => [t] -> t -> t
     myProd [] acc = acc
@@ -43,7 +44,8 @@ myProduct' list = myProd list (\x -> x) where
     myProd (x:xs) cont = myProd xs (\y -> cont x*y)
 
 -- avec plis
-myProduct'':: (Foldable t, Num a) => t a -> a
+myProduct'' :: Num p => [p] -> p
+myProduct'' [] = 0
 myProduct'' list = foldl1 (\acc x -> acc * x) list
 
 
@@ -119,6 +121,7 @@ Exemple :
 -}
 -- avec accumulateur
 myInsert :: Ord a => a -> [a] -> [a]
+myInsert e [] = [e]
 myInsert e list = insert e list [] where
     insert :: Ord a => a -> [a] -> [a] -> [a]
     insert _ [] acc = acc

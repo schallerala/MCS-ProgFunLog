@@ -562,9 +562,9 @@ Exemple:
 * `nextState 3 'b' monAutomate` retourne 4
 * `nextState 3 'a' monAutomate` retourne -1
 -}
-nextState :: InitialState -> Char -> StateMachine -> Int
+nextState :: InitialState -> Char -> StateMachine -> State
 -- Final condition, consumed all transitions
-nextState _ _ (_, _, []) = -1
+nextState _ _ (_, _, []) = error "Not found any appropriate next state"
 -- Consume transitions
 nextState s1 char (initialState, finals, ((s2, charPredicate, next):xs)) =
     if s1 == s2 && charPredicate char

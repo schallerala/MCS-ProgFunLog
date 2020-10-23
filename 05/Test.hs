@@ -25,7 +25,7 @@ main = hspec $ do
             myProduct [1,2,3,4] `shouldBe` 24
             myProduct [4] `shouldBe` 4
             myProduct [] `shouldBe` 0
-            myProduct' [1,2,3,4] `shouldBe` 24           
+            myProduct' [1,2,3,4] `shouldBe` 24
             myProduct' [] `shouldBe` 0
             myProduct'' [1,2,3,4] `shouldBe` 24
             myProduct'' [] `shouldBe` 0

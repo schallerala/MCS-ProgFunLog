@@ -104,6 +104,15 @@ main = hspec $ do
             getReconCode (recognizedFromState 0 "z_9_" "" t16) `shouldBe` "ident"
             getReconCode (recognizedFromState 0 "z_9Z9" "" t16) `shouldBe` "ident"
 
+        it "recognizedFromState examples" $ do
+            recognizedFromState 0 "toto=3;" "" t16 `shouldBe` Result ("ident", "toto", "=3;")
+            recognizedFromState 0 "{x=3;}" "" t16  `shouldBe` None
+
+        it "getNextrecognizedToken examples" $ do
+            getNextRecognizedToken "toto=3;" tokens `shouldBe` Result ("ident", "toto", "=3;")
+            getNextRecognizedToken "{x=3;}" tokens  `shouldBe` Result ("begin_block", "{", "x=3;}")
+            getNextRecognizedToken "while (x==3)" tokens  `shouldBe` Result ("loop", "while", " (x==3)")
+
         it "unkown tokens" $ do
             getNextRecognizedToken "§" tokens `shouldBe` None
             getNextRecognizedToken "" tokens `shouldBe` None
@@ -127,6 +136,9 @@ main = hspec $ do
 
         it "get next token" $ do
             getNextRecognizedToken "while (x==3)" tokens `shouldBe` Result ("loop", "while", " (x==3)")
+
+        it "lexAnalyse examples" $ do
+            lexAnalyse "toto=3;" tokens `shouldBe` ["ident", "op_affect", "value_int", "semicolon"]
 
         it "lexAnalyse" $ do
             lexAnalyse "int x ; int y ; x = y * 2 ;" tokens `shouldBe`

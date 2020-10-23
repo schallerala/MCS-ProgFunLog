@@ -363,21 +363,23 @@ fini du token passé en paramètre. state est un état de l'automate de token, i
 l'état duquel on part pour analyser le texte. recognizedPart est un accumulateur contenant
 la partie du texte reconnue.
 
-Cette fonction retourne un triplet (code,rec,rest) où code est le code du token reconnu,
-rec est le dédut de text reconnu par le token et rest est la partie du texte qui suit la
-partie reconnue. Elle retourne le triplet ("","",text) si le début de text n'est pas
-reconnu par le token. Cette fonction est "gloutonne", elle reconnaît la plus grande partie
-possible de texte.
+Cette fonction retourne un triplet `(code,rec,rest)` où:
+* `code` est le `code` du `token` reconnu,
+* `rec` est le dédut de text reconnu par le `token`
+* et `rest` est la partie du texte qui suit la partie reconnue.
+
+Elle retourne le triplet ("","",text) si le début de text n'est pas reconnu par le token.
+Cette fonction est "gloutonne", elle reconnaît la plus grande partie possible de texte.
 
 Exemples:
 * si t16 est la donnée de type Token permettant de reconnaître des identificateurs,
-l'appel recognizedFromState 0 "toto=3;" "" t16 signifie que l'on cherche si le début
+l'appel `recognizedFromState 0 "toto=3;" "" t16` signifie que l'on cherche si le début
 du texte "toto=3;" est reconnu par le token t16 (si t16 est le token "ident").
 Cet appel retourne le triplet ("ident", "toto", "=3;") où "toto" est le plus grand
 identificateur au début du texte "toto=3;", "ident" est le code du token t16 et "=3;"
 est la partie du texte située après la partie reconnue (ici après "toto")
 
-l'appel recognizedFromState 0 "{x=3;}" "" t16 signifie que l'on cherche si le
+l'appel `recognizedFromState 0 "{x=3;}" "" t16` signifie que l'on cherche si le
 début du texte "{x=3;}" est reconnu par le token t16.
 Cet appel retourne le triplet ("", "", "{x=3;}") car ce texte ne commence pas par un
 identificateur.
@@ -385,9 +387,72 @@ identificateur.
 Indications : Reprenez et adaptez au besoin les fonctions isFinalState et nextState de
 l'exercice 2 de la série 5.
 -}
+type Matched = String
+type Remain = String
+
+data RecognizedToken = None | Result (Code, Matched, Remain)
+                       deriving (Show, Eq)
+
+instance Ord RecognizedToken where
+    compare None None = EQ
+    compare None _ = LT
+    compare _ None = GT
+    compare (Result (_, match1, _)) (Result (_, match2, _)) =
+
+        case compare match1 match2 of
+            -- necessary for max, to select first occurrence when called maximum of a list
+            -- else, `max (Result ("loop", "while", "")) (Result ("indent", "while", ""))`
+            -- would return: `Result ("indent","while","")`
+            EQ -> GT
+            c -> c
 
 
+recognizedFromState :: State -> String -> String -> Token -> RecognizedToken
+-- Got to the end of the string
+recognizedFromState curS [] acc (Token sm code) =
+    if isFinalState curS sm then Result (code, reverse acc, "")
+    else None
 
+-- Trying to read the most characters possible
+recognizedFromState curS css@(c:cs) acc token@(Token sm@(StateMachine _ _ _) code) =
+    if next == -1 then
+        if isFinalState curS sm then Result (code, reverse acc, css)
+        else None
+    else recognizedFromState next cs (c:acc) token
+    where
+        next = nextState curS c sm
+
+{- ---------------------- -}
+{-
+cette fonction prend en paramètre un état et un automate. Elle retourne vrai si l'état
+est final dans cet automate.
+
+Exemple:
+* `isFinalState 4 monAutomate` retourne True
+* `isFinalState 1 monAutomate` retourne False
+-}
+isFinalState :: State -> StateMachine -> Bool
+isFinalState state (StateMachine _ finalStates _) = elem state finalStates
+
+{-
+cette fonction prend en paramètre un état, un caractère et un automate.
+Elle retourne l'état d'arrivée de la transition partant de l'état et portant le caractère.
+Elle retourne -1 si la transition n'existe pas.
+
+Exemple:
+* `nextState 3 'b' monAutomate` retourne 4
+* `nextState 3 'a' monAutomate` retourne -1
+-}
+nextState :: InitialState -> Char -> StateMachine -> State
+-- Final condition, consumed all transitions
+nextState _ _ (StateMachine _ _ []) = -1
+-- Consume transitions
+nextState s1 char (StateMachine initialState finals ((s2, charPredicate, next):xs)) =
+    if s1 == s2 && charPredicate char
+        then next
+        else nextState s1 char (StateMachine initialState finals xs)
+
+{- ---------------------- -}
 
 {-
 # `getNextRecognizedToken text tokens`
@@ -406,13 +471,21 @@ car le texte commence par le token {, et "x=3;}" est la partie du texte qui suit
 
 Attention :
 * `getNextRecognizedToken "while (x==3)" lt` doit retourner le triplet
-("begin_loop", "while", " (x==3)") et non le triplet ("ident", "while", "(x==3)").
+("loop", "while", " (x==3)") et non le triplet ("ident", "while", "(x==3)").
 
 Indication : l'ordre dans lequel les tokens sont testés par cette fonction est
 significatif. Le token reconnu est celui qui reconnaît le plus long mot. Si deux tokens
 reconnaissent le même mot le gagnant est le premier qui a été testé.
 -}
-
+{- l'ordre est significatif ou non? Si on doit au final test la longueur... -}
+getNextRecognizedToken :: String -> [Token] -> RecognizedToken
+getNextRecognizedToken _ [] = None
+getNextRecognizedToken [] _ = None
+getNextRecognizedToken str tokens =
+    maximum (map (recognize) tokens)
+    where
+        recognize :: Token -> RecognizedToken
+        recognize t = recognizedFromState 0 str "" t
 
 {-
 # `lexAnalyse text tokens`
@@ -425,7 +498,14 @@ Exemple :
 Indication :
 vous pouvez implémenter et utiliser la fonction trim ch qui retourne la chaîne de
 caractères ch sans ses premiers caractères qui sont des espaces. La fonction isSpace c du
-module Data.Char retourne True si c est un des caractères de séparation
-(espace,tabulation,etc)
+module Data.Char retourne True si c est un des caractères de séparation (espace,
+tabulation, etc.)
 -}
-
+lexAnalyse :: String -> [Token] -> [Code]
+lexAnalyse [] _ = []
+lexAnalyse cs@(c:_) ts =
+    if isSpace c
+        then lexAnalyse cs ts
+        else case getNextRecognizedToken cs ts of
+            None   -> error ("Unkown char starting with " ++ cs)
+            Result (code, _, rem) -> code : (lexAnalyse rem ts)

@@ -503,9 +503,9 @@ tabulation, etc.)
 -}
 lexAnalyse :: String -> [Token] -> [Code]
 lexAnalyse [] _ = []
-lexAnalyse cs@(c:_) ts =
+lexAnalyse css@(c:cs) ts =
     if isSpace c
         then lexAnalyse cs ts
-        else case getNextRecognizedToken cs ts of
-            None   -> error ("Unkown char starting with " ++ cs)
+        else case getNextRecognizedToken css ts of
+            None   -> error ("Unkown char starting with " ++ css)
             Result (code, _, rem) -> code : (lexAnalyse rem ts)

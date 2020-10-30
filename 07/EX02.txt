@@ -1,0 +1,8 @@
+
+a. =        unification                             A = B -> succès si A et B peuvent s'unifier
+b. \=       non unification                         A \= B -> succps si A et B ne peuvent pas s'unifier
+c. ==       égalité des termes                      A == B -> succès si A et B ont une valeur égale
+d. \==      non négalité des termes                 A \== B -> succès si A et B ont une valeur différente
+e. =\=      non égalité arithmétique                A =\= B -> succès si les évaluations de A et celle de B sont égales
+f. =:=      égalité arithmétique                    2 =:= 3 -> succès si les évaluations de A et celle de B ne sont pas égales
+g. is       évaluation d'expression arithmétique    A is 2 + 3 -> le prédicat à droite de is est évalué puis unifié avec A

@@ -1,16 +1,8 @@
 
 a. =        unification                             A = B -> succès si A et B peuvent s'unifier
 b. \=       non unification                         A \= B -> succès si A et B ne peuvent pas s'unifier
-
-c. ==       égalité des termes                      A == B -> succès si A et B sont une valeur égale
-    Sont le même atôme
-d. \==      non égalité des termes                  A \== B -> succès si A et B sont une valeur différente
-    Ne sont pas le même atôme
-
-e. =\=      non égalité arithmétique                A =\= B -> succès si les évaluations de A et celle de B sont égales
-    Nombres non égal: True if expression Expr1 evaluates to a number non-equal to Expr2.
-f. =:=      égalité arithmétique                    2 =:= 3 -> succès si les évaluations de A et celle de B ne sont pas égales
-    Non sont égal: True if expression Expr1 evaluates to a number equal to Expr2.
-    (normal ton example 2 =:= 3?)
-
-g. is       évaluation d'expression arithmétique    A is 2 + 3 -> le prédicat à droite de is est évalué puis unifié avec A
+c. ==       égalité des termes                      A == B -> succès si A et B sont le même atôme
+d. \==      non égalité des termes                  A \== B -> succès si A et B ne sont pas le même atôme
+e. =\=      non égalité arithmétique                A =\= B -> succès si les évaluations de A et celle de B ne sont pas égales
+f. =:=      égalité arithmétique                    A =:= B -> succès si les évaluations de A et celle de B sont égales
+g. is       évaluation d'expression arithmétique    A is 2 + 3 -> le prédicat à droite de "is" est évalué puis unifié avec A

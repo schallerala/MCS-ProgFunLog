@@ -13,7 +13,6 @@ myAppend([X|Xs],Y,[X|Ys]) :- myAppend(Xs,Y,Ys).
 % myLast(?E,+L): vrai si E est le dernier élément de L
 % exemple:? -myLast(X,[a,b,c]).
 %            X=c
-% myLast(null,[]). % TODO: Not sure -> actually, if the list is empty, there is no predicate and then the evaluation is false (what we want)
 myLast(E, [E]).
 myLast(E, [_|Ls]):- myLast(E, Ls).
 
@@ -28,7 +27,6 @@ mySelect(X, [L1|Ls1], [L1|L2]):- mySelect(X, Ls1, L2).
 % atoms(+L) : vrai si L est une liste dont les éléments sont des atoms. Indication: utilisez le prédicat prédéfini atom/1
 % exemple:? -atoms([a,[1,2],b,c]).
 %            false
-atoms([L]):- atom(L). % TODO: review, not necessary. Can be resolved with second truth (empty list)
 atoms([L|Ls]):- atom(L), atoms(Ls).
 
 % insert(+X,?L1,?L2): vrai si L1 et L2 sont des listes triées et L2 est la liste L1 augmentée de l'élément X
@@ -50,7 +48,6 @@ mergeLists([L1|Ls1],[L2|Ls2],[L1|L4]):- L1 < L2, mergeLists(Ls1, [L2|Ls2], L4).
 % sum_list(+L,?S): vrai si S est la somme des éléments de L
 % exemple:? -sum_list([2,6,9],S).
 %            S=17
-sum_list([], 0). % TODO: review, really? As no element, I assumed there is no result :|
 sum_list([L|Ls],S):- sum_list(Ls,S1), S is L + S1.
 
 % reverseRec(+L1,?L2): vrai si L2 est la liste L1 renversée à tous les niveaux (y compris les listes internes)

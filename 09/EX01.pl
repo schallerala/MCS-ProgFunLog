@@ -1,17 +1,17 @@
-% scalarProduct(+L1 ,+L2, -P):vrai si P est le produit scalaire des listes L1 et L2. 
+% scalarProduct(+L1 ,+L2, -P):vrai si P est le produit scalaire des listes L1 et L2.
 % Rappel: le produit scalaire des listes [v1, v2, v3] et [u1, u2, u3] est égal à v1*u1 + v2*u2 + v3*u3
 % Exemple:  ?- scalarProduct([1,2,3],[1,2,3], P).
 %           P = 14.
 
 % version récursive
 scalarProduct([],[],0).
-scalarProduct([L1|Ls1] ,[L2|Ls2], P):- scalarProduct(Ls1, Ls2, P1), P is P1 + L1*L2.
+scalarProduct([L1|Ls1] ,[L2|Ls2], P):- scalarProduct(Ls1, Ls2, P1), P is P1 + L1*L2. % TODO review: perso, j'ai mis la multiplation d'abord pour pas avoir de surprise avec la prio des opérations ':D
 
 % version récursive terminale
 scalarProduct2(L1, L2, P):- scalarProduct3(L1,L2,0,P).
 
 scalarProduct3([],[],Acc,Acc).
-scalarProduct3([L1|Ls1] ,[L2|Ls2], Acc, P):- Acc2 is (Acc + L1 * L2), scalarProduct3(Ls1, Ls2, Acc2, P).
+scalarProduct3([L1|Ls1] ,[L2|Ls2], Acc, P):- Acc2 is (Acc + L1 * L2), scalarProduct3(Ls1, Ls2, Acc2, P). % TODO review: same et pourquoi les paranthèses?
 
 
 % fibonacci(+N,?FN): vrai si FN est est la valeur de fibonacci de N
@@ -27,11 +27,11 @@ fibonacci(N,FN):- N > 1, N1 is N-1, N2 is N-2, fibonacci(N1, FN1), fibonacci(N2,
 
 % version récursive terminale
 fibonacci2(0,0).
-fibonacci2(1,1).
-fibonacci2(N,FN):- N > 1, fibonacci3(N,0,1,FN).
+fibonacci2(1,1). % TODO review, pas nécessaire
+fibonacci2(N,FN):- N > 1, fibonacci3(N,0,1,FN). % TODO review: condition pas necessaire car déjà dans version avec accumulateur
 
 fibonacci3(1,_,Acc,Acc).
-fibonacci3(N,Acc1,Acc2,FN):- N > 0, N1 is N-1, Acc is Acc1 + Acc2, fibonacci3(N1, Acc2, Acc, FN).
+fibonacci3(N,Acc1,Acc2,FN):- N > 0, N1 is N-1, Acc is Acc1 + Acc2, fibonacci3(N1, Acc2, Acc, FN). % TODO review: simplifiable, en mettant `N > 1`
 
 
 % countOccur(+X,+L,?N): vrai si N est le nombre d’occurrences de X dans la liste L
@@ -45,6 +45,6 @@ countOccur(X,[L|Ls],N):-  L \== X, countOccur(X, Ls, N1), N is N1.
 countOccur2(X,L,N):- countOccur3(X,L,0,N).
 
 countOccur3(_,[],Acc,Acc).
-countOccur3(X,[L|Ls],Acc,N):- X == L, Acc1 is Acc + 1, countOccur3(X,Ls,Acc1,N).
-countOccur3(X,[L|Ls],Acc,N):- X \== L, countOccur3(X,Ls,Acc,N). % TODO: is true that Acc1 is Acc is useless?!
+countOccur3(X,[L|Ls],Acc,N):- X == L, Acc1 is Acc + 1, countOccur3(X,Ls,Acc1,N). % TODO review: "substition" possible dans les paramètres et égalité pas nécessaire.
+countOccur3(X,[L|Ls],Acc,N):- X \== L, countOccur3(X,Ls,Acc,N). % TODO: is true that Acc1 is Acc is useless?! % TODO review: non égalité non nécessaire, mais "non substition" suffisant
 

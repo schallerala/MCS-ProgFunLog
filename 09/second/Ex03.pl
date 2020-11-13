@@ -36,7 +36,7 @@
 % Vous pouvez développer et utiliser les prédicats :
 %   -   sameIndex(E1,E2,L1,L2) où sameIndex(E1,E2,L1,L2) est vrai si E1 et E2 ont
 %       respectivement les mêmes indices dans les listes L1 et L2.
-sameIndex(E1, E2, L1, L2) :-
+sameIndex(E1, L1, E2, L2) :-
     nth0(I1, L1, E1),
     nth0(I1, L2, E2).
 
@@ -58,25 +58,65 @@ neighbor(V1, L1, V2, L2) :-
 %   -   color(I,C) : vrai si la maison de numéro I est de couleur C
 
 
+housesComposition(Colors, Animals, Drinks, Cigarettes, Nationalities) :-
+    length(Colors, 5),
+    length(Animals, 5),
+    length(Drinks, 5),
+    length(Cigarettes, 5),
+    length(Nationalities, 5),
+    % 1.    Le norvégien habite la première maison,
+    nth0(0, Nationalities, norway),
+    % 2.    La maison à côté de celle du norvégien est bleue,
+    neighbor(norway, Nationalities, blue, Colors),
+    % 3.    L’habitant de la troisième maison boit du lait,
+    nth0(2, Drinks, milch),
+    % 4.    L’anglais habite une maison rouge,
+    sameIndex(english, Nationalities, red, Colors),
+    % 5.    L’habitant de la maison verte boit du café,
+    sameIndex(green, Colors, coffee, Drinks),
+    % 6.    L’habitant de la maison jaune fume des kool,
+    sameIndex(yellow, Colors, kool, Cigarettes),
+    % 7.    La maison blanche se trouve juste après la verte,
+    neighbor(white, Colors, green, Colors),
+    % 8.    L’espagnol a un chien,
+    sameIndex(spanish, Nationalities, dog, Animals),
+    % 9.    L’ukrainien boit du thé,
+    sameIndex(ukrainian, Nationalities, the, Drinks),
+    % 10.   Le japonais fume des craven,
+    sameIndex(japanese, Nationalities, craven, Cigarettes),
+    % 11.   Le fumeur de old gold a un escargot,
+    sameIndex(oldgold, Cigarettes, snail, Animals),
+    % 12.   Le fumeur de gitane boit du vin,
+    sameIndex(gitane, Cigarettes, whine, Drinks),
+    % 13.   Un voisin du fumeur de chesterfield a un renard,
+    neighbor(chesterfield, Cigarettes, fox, Animals),
+    % 14.   Un voisin du fumeur de kool a un cheval.
+    neighbor(kool, Cigarettes, horse, Animals).
+
+
+
+
+% NOT USED!
+% ----
 % drink(N,D): nationality N drinks D
 % 3.    L’habitant de la troisième maison boit du lait,
 % 5.    L’habitant de la maison verte boit du café,
 % 9.    L’ukrainien boit du thé,
 % 12.   Le fumeur de gitane boit du vin,
-drink(N, D) :-
-    housesComposition(_Co, _A, Ds, _Ci, Ns),
-    nth0(I, Ds, D),
-    nth0(I, Ns, N).
+% drink(N, D) :-
+%     housesComposition(_Co, _A, Ds, _Ci, Ns),
+%     nth0(I, Ds, D),
+%     nth0(I, Ns, N).
 
 % hasAnimal(N,A): nationality N has an anmial A
 % 8.    L’espagnol a un chien,
 % 11.   Le fumeur de old gold a un escargot,
 % 13.   Un voisin du fumeur de chesterfield a un renard,
 % 14.   Un voisin du fumeur de kool a un cheval.
-hasAnimal(N, A) :-
-    housesComposition(_Co, As, _D, _Ci, Ns),
-    nth0(I, As, A),
-    nth0(I, Ns, N).
+% hasAnimal(N, A) :-
+%     housesComposition(_Co, As, _D, _Ci, Ns),
+%     nth0(I, As, A),
+%     nth0(I, Ns, N).
 
 % smoke(N,C): nationality N smokes cigarettes C
 % 6.    L’habitant de la maison jaune fume des kool,
@@ -85,10 +125,10 @@ hasAnimal(N, A) :-
 % 12.   Le fumeur de gitane boit du vin,
 % 13.   Un voisin du fumeur de chesterfield a un renard,
 % 14.   Un voisin du fumeur de kool a un cheval.
-smoke(N, C) :-
-    housesComposition(_Co, _A, _D, Cis, Ns),
-    nth0(I, Cis, C),
-    nth0(I, Ns, N).
+% smoke(N, C) :-
+%     housesComposition(_Co, _A, _D, Cis, Ns),
+%     nth0(I, Cis, C),
+%     nth0(I, Ns, N).
 
 % color(I,C): Home I is of color C
 % 2.    La maison à côté de celle du norvégien est bleue,
@@ -96,6 +136,7 @@ smoke(N, C) :-
 % 5.    L’habitant de la maison verte boit du café,
 % 6.    L’habitant de la maison jaune fume des kool,
 % 7.    La maison blanche se trouve juste après la verte,
-color(I, C) :-
-    housesComposition(Cos, _A, _D, _Ci, _N),
-    noth0(I, Cos, C).
+% color(I, C) :-
+%     housesComposition(Cos, _A, _D, _Ci, _N),
+%     noth0(I, Cos, C).
+

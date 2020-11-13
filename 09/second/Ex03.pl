@@ -94,9 +94,30 @@ housesComposition(Colors, Animals, Drinks, Cigarettes, Nationalities) :-
     neighbor(kool, Cigarettes, horse, Animals).
 
 
+findall(X) :-
+    findall(
+        [Colors, Animals, Drinks, Cigarettes, Nationalities],
+        housesComposition(Colors, Animals, Drinks, Cigarettes, Nationalities),
+        X
+    ).
+
+% ---
+% Qui boit de l’eau ? Qui possède un zèbre ?
+water(N) :-
+    housesComposition(_Co, _A, Drinks, _Ci, Nationalities),
+    nth0(I, Drinks, D),
+    var(D),
+    nth0(I, Nationalities, N).
+
+zebra(N) :-
+    housesComposition(_Co, Animals, _D, _Ci, Nationalities),
+    nth0(I, Animals, A),
+    var(A),
+    nth0(I, Nationalities, N).
 
 
 % NOT USED!
+%   Not sure how to use them...
 % ----
 % drink(N,D): nationality N drinks D
 % 3.    L’habitant de la troisième maison boit du lait,

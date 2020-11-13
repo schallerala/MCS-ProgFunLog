@@ -77,7 +77,7 @@ housesComposition(Colors, Animals, Drinks, Cigarettes, Nationalities) :-
     % 6.    L’habitant de la maison jaune fume des kool,
     sameIndex(yellow, Colors, kool, Cigarettes),
     % 7.    La maison blanche se trouve juste après la verte,
-    neighbor(white, Colors, green, Colors),
+    nth0(Ci1, Colors, green), Ci2 is Ci1 + 1, nth0(Ci2, Colors, white),
     % 8.    L’espagnol a un chien,
     sameIndex(spanish, Nationalities, dog, Animals),
     % 9.    L’ukrainien boit du thé,

@@ -16,6 +16,11 @@ myLastDCG(X) --> whatever(_), [X].
 whatever(0) --> [].
 whatever(Len) --> [C], { char_type(C, ascii) }, whatever(Len1), { Len is Len1 + 1 }.
 
+% without whatever predicate
+myLast2(X, L) :- myLastDCG2(X,L,[]).
+
+myLastDCG2(X) --> [_], myLastDCG2(X).
+myLastDCG2(X) --> [X].
 
 
 % --------

@@ -6,7 +6,7 @@
 %       2.1 note : . désigne n’importe quel caractère
 
 % ## Indications :
-% commencez par déterminer une grammaire algébrique correspondant à  l'expression
+% commencez par déterminer une grammaire algébrique correspondant à l'expression
 % régulière, puis utilisez le formalisme des DCG pour implémenter un analyseur de
 % cette grammaire.
 
@@ -19,14 +19,15 @@
 
 
 % 1. a*bca*
-rule1 --> [a], whatever(_), [b, c, a], whatever(_).
-whatever(0) --> [].
-whatever(Len) --> [C], { char_type(C, ascii) }, whatever(Len1), { Len is Len1 + 1 }.
+rule1 --> as, [b, c], as.
+as --> [a], as.
+as --> [].
 
 
 % 2. (a.|bc)*uu*
-% TODO review, en vrai, le . n'est pas nécessaire, car le * avant uu, va de toute façon
-%   consommer d'avantage de charactères. On retire? On parle de la simplification.
-rule2 --> group1, whatever(_), [u, u], whatever(_).
-group1 --> [a], whatever(1).
-group1 --> [b, c].
+rule2 --> rule2group1, [u], us.
+rule2group1 --> [a], [C], { char_type(C, ascii) }, rule2group1.
+rule2group1 --> [b, c], rule2group1.
+rule2group1 --> [].
+us --> [u], us.
+us --> [].

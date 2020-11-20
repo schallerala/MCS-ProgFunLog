@@ -9,18 +9,19 @@
 %   myLast(X,L) :- myLastDCG(X,L,[]).
 % où myLastDCG est implémenté avec le formalisme DCG et où X est un extra goal de ce
 % prédicat.
-myLast(X, L) :- myLastDCG(X, L, []).
+myLast(X, L) :- myLastDCG(X,L,[]).
 
-myLastDCG(X) --> whatever(_), [X].
+myLastDCG(X) --> [_], myLastDCG(X).
+myLastDCG(X) --> [X].
 
-whatever(0) --> [].
-whatever(Len) --> [C], { char_type(C, ascii) }, whatever(Len1), { Len is Len1 + 1 }.
+% with whatever predicate
+% myLast(X, L) :- myLastDCG(X, L, []).
 
-% without whatever predicate
-myLast2(X, L) :- myLastDCG2(X,L,[]).
+% myLastDCG(X) --> whatever(_), [X].
 
-myLastDCG2(X) --> [_], myLastDCG2(X).
-myLastDCG2(X) --> [X].
+% whatever(0) --> [].
+% whatever(Len) --> [C], { char_type(C, ascii) }, whatever(Len1), { Len is Len1 + 1 }.
+
 
 
 % --------

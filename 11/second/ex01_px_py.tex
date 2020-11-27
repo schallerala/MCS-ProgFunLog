@@ -1,0 +1,46 @@
+\documentclass[border=10pt]{standalone}
+
+\usepackage[edges]{forest}
+\tikzset{
+    disabled/.style = { fill=gray, text=white }
+}
+
+% To be able to expand command in forest
+\bracketset{action character=@} % https://tex.stackexchange.com/questions/244067/expansion-in-forest
+
+
+\newcommand{\unify}[2]{%
+{#2}, edge label={node[midway,left] {#1}}}
+
+\newcommand{\cutbranch}[1]{%
+#1, disabled, edge={dashed, gray}, edge label={node[midway, fill=white] {X}}}
+
+\begin{document}
+
+% p(1).
+% p(2) :- !.
+% p(3).
+%
+% ?- p(X), p(Y).
+\begin{forest}
+for tree={edge={-latex},l+=0.7cm,s sep=1.4cm}
+[{p(X), p(Y)}
+    [@+\unify{X=1}{p(1), p(Y)}
+        [@+\unify{Y=1}{p(1)} [Success]]
+        [@+\unify{Y=2}{p(2), !} [! [Success]]]
+        [\cutbranch{p(3)}]
+    ]
+    [@+\unify{X=2}{p(2), !, p(Y)}
+        [{!, p(Y)}
+            [p(Y)
+                [@+\unify{Y=1}{p(1)} [Success]]
+                [@+\unify{Y=2}{p(2), !} [! [Success]]]
+                [@+\cutbranch{p(3)}]
+            ]
+        ]
+    ]
+    [@+\cutbranch{{p(3), p(Y)}}]
+]
+\end{forest}
+
+\end{document}

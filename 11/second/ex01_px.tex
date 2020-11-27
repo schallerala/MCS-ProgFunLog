@@ -1,0 +1,35 @@
+\documentclass[border=10pt]{standalone}
+
+\usepackage[edges]{forest}
+\tikzset{
+    disabled/.style = { fill=gray, text=white }
+}
+
+% To be able to expand command in forest
+\bracketset{action character=@} % https://tex.stackexchange.com/questions/244067/expansion-in-forest
+
+
+\newcommand{\cutbranch}[1]{%
+#1, disabled, edge={dashed, gray}, edge label={node[midway, fill=white] {X}}}
+
+\begin{document}
+
+% p(1).
+% p(2) :- !.
+% p(3).
+%
+% ?- p(X).
+\begin{forest}
+for tree={edge={-latex},l+=0.7cm,s sep=1.4cm}
+[p(X)
+    [p(1), edge label={node[midway,left] {X=1}}
+        [Success]
+    ]
+    [{p(2), !}, edge label={node[midway,left] {X=2}}
+        [! [Success]]
+    ]
+    [@+\cutbranch{p(3)}]
+]
+\end{forest}
+
+\end{document}

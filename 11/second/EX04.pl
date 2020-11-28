@@ -97,30 +97,33 @@ subTerm(char(C)) --> [C], { char_type(C, ascii) }.
 :- begin_tests(exercise04).
 
 % TODO could be improved, as I'm getting 'choicepoint' warnings...
+%   Therefore added the nondet option to avoid getting the warning
+
+% Easily run the tests with `run_tests.` or `run_tests(exercise04)`
 
 % Given examples
-test(abc) :-
+test(abc, [nondet]) :-
     phrase(exp(E), [a, b, c], []),
     assertion(E == exp([char(a), char(b), char(c)])).
 
-test(aiterbpointa) :-
+test(aiterbpointa, [nondet]) :-
     phrase(exp(E), [a, b, '*' ,'.', a], []),
     assertion(E == exp([char(a), iter(char(b)), point, char(a)])).
 
-test(iterabc) :-
+test(iterabc, [nondet]) :-
     phrase(exp(E), ['(', a, b, ')', '*', c], []),
     assertion(E == exp([iter(exp([char(a), char(b)])), char(c)])).
 
-test(orabcd) :-
+test(orabcd, [nondet]) :-
     phrase(exp(E), [a, b, '|', c, d], []),
     assertion(E == exp(or(exp([char(a), char(b)]), exp([char(c), char(d)])))).
 
-test(aiterorg) :-
+test(aiterorg, [nondet]) :-
     phrase(exp(E), [a, '(', b, c, '|', d, e, ')', '*', g], []),
     assertion(E == exp([char(a), iter(exp(or(exp([char(b), char(c)]), exp([char(d), char(e)])))), char(g)])).
 
 % Own tests
-test(aorb) :-
+test(aorb, [nondet]) :-
     phrase(exp(E), [a, '|', b], []),
     assertion(E == exp(or(exp([char(a)]),exp([char(b)])))).
     % assertion(E == exp(or(char(a), char(b)))).

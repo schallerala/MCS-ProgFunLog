@@ -16,7 +16,7 @@
 % term  -->  subTerm* | subTerm
 % subTerm -->  <char> | . | '(' exp ')'
 
-exp(exp(or(SubA, SubB))) --> subExp(SubA), ['|'], { ! }, exp(exp(SubB)).
+exp(exp(or(exp(SubA), SubB))) --> subExp(SubA), ['|'], { ! }, exp(SubB).
 exp(exp(Sub)) --> subExp(Sub).
 
 subExp([E | Sub]) --> term(E), subExp(Sub).
@@ -111,17 +111,20 @@ test(iterabc) :-
     phrase(exp(E), ['(', a, b, ')', '*', c], []),
     assertion(E == exp([iter(exp([char(a), char(b)])), char(c)])).
 
-test(orabcd) :- % FIXME
+test(orabcd) :-
     phrase(exp(E), [a, b, '|', c, d], []),
     assertion(E == exp(or(exp([char(a), char(b)]), exp([char(c), char(d)])))).
 
-test(aiterorg) :- % FIXME
+test(aiterorg) :-
     phrase(exp(E), [a, '(', b, c, '|', d, e, ')', '*', g], []),
     assertion(E == exp([char(a), iter(exp(or(exp([char(b), char(c)]), exp([char(d), char(e)])))), char(g)])).
 
 % Own tests
-test(aorb) :- % FIXME or is it correct?
+test(aorb) :-
     phrase(exp(E), [a, '|', b], []),
-    assertion(E == exp(or(char(a), char(b)))).
+    assertion(E == exp(or(exp([char(a)]),exp([char(b)])))).
+    % assertion(E == exp(or(char(a), char(b)))).
+% exp(or([char(a)],[char(b)]))
+% exp(or(char(a),char(b)))
 
 :- end_tests(exercise04).

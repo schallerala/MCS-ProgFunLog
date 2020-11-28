@@ -1,0 +1,38 @@
+\documentclass[border=10pt]{standalone}
+
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage[edges]{forest}
+\tikzset{
+    disabled/.style = { fill=gray, text=white }
+}
+
+% To be able to expand command in forest
+\bracketset{action character=@} % https://tex.stackexchange.com/questions/244067/expansion-in-forest
+
+
+\newcommand{\unify}[2]{%
+{#2}, edge label={node[midway,left] {#1}}}
+
+\newcommand{\cutbranch}[1]{%
+#1, disabled, edge={dashed, gray}, edge label={node[midway, fill=white] {X}}}
+
+\begin{document}
+
+% myMax(X,Y,X) :- X>=Y, !.
+% myMax(_,Y,Y).
+%
+% ?- myMax(8, 1, 1).
+\begin{forest}
+for tree={edge={-latex},l+=0.9cm,s sep=1.4cm}
+[{myMax(8, 1, 1)}
+    [Reject,white,fill=Red, edge label={
+        node[pos=0.2,left,color=gray] {Calling first clause}
+        node[pos=0.5,left] {\footnotesize myMax(X,Y,X)}
+        node[pos=0.8,left, color=Gray!5!Red] {\footnotesize Can't unify 8 and 1 as X}
+    }]
+    [Success, white, fill=Green,edge label={node[pos=0.25,right,color=gray] {Calling second clause} node[pos=0.65,right] {\footnotesize myMax(X,Y,Y).}}]
+]
+\end{forest}
+
+\end{document}

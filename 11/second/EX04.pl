@@ -16,17 +16,17 @@
 % term  -->  subTerm* | subTerm
 % subTerm -->  <char> | . | '(' exp ')'
 
-exp(exp(or(exp(SubA), SubB))) --> subExp(SubA), ['|'], { ! }, exp(SubB).
+exp(exp(or(exp(SubA), SubB))) --> subExp(SubA), ['|'], { ! }, exp(SubB). % cut nessary, else, [a, '|', b] would return 2 results: exp(or(exp([char(a)]),exp([char(b)]))), exp([char(a),char('|'),char(b)])
 exp(exp(Sub)) --> subExp(Sub).
 
 subExp([E | Sub]) --> term(E), subExp(Sub).
 subExp([E]) --> term(E).
 
-term(iter(E)) --> subTerm(E), ['*'], { ! }.
+term(iter(E)) --> subTerm(E), ['*'], { ! }. % cut necessary, else, [a, '*'] would return 2 results: exp([char(a),char(*)]), exp([iter(char(a))])
 term(E) --> subTerm(E).
 
-subTerm(point)   --> ['.'], { ! }.
-subTerm(E) --> ['('], exp(E), [')'], { ! }.
+subTerm(point)   --> ['.'], { ! }. % avoid dot being accepted as ascii char
+subTerm(E) --> ['('], exp(E), [')'], { ! }. % avoid paranthesis to be accepted as ascii chars
 subTerm(char(C)) --> [C], { char_type(C, ascii) }.
 
 % ## Travail à faire

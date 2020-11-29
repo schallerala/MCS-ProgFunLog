@@ -43,35 +43,23 @@ separate2(X, [E | LS], L1, [E | L21]) :-
 % E = [6,2,1,9,3]
 
 % Without cut
-myUnion([], [], []).
-
 myUnion([], Us, Us).
 
 myUnion([E|E1], E2, [E | Us1]) :-
     member(E, E2),
-    % select(?Elem, ?List1, ?List2)
-    % Is true when List1, with Elem removed, results in List2. This implementation is
-    % determinsitic if the last element of List1 has been selected.
-    select(E, E2, E21),
-    myUnion(E1, E21, Us1).
+    myUnion(E1, E2, Us1).
 myUnion([E|E1], E2, [E | Us1]) :-
  \+ member(E, E2),
     myUnion(E1, E2, Us1).
 
 
 % With cut
-myUnion2([], [], []).
-
 myUnion2([], Us, Us).
 
 myUnion2([E|E1], E2, [E | Us1]) :-
     member(E, E2),
     !,
-    % select(?Elem, ?List1, ?List2)
-    % Is true when List1, with Elem removed, results in List2. This implementation is
-    % determinsitic if the last element of List1 has been selected.
-    select(E, E2, E21),
-    myUnion2(E1, E21, Us1).
+    myUnion2(E1, E2, Us1).
 myUnion2([E|E1], E2, [E | Us1]) :-
     myUnion2(E1, E2, Us1).
 
@@ -89,8 +77,7 @@ myIntersection([], _, []).
 
 myIntersection([E|E1], E2, [E | Is1]) :-
     member(E, E2),
-    select(E, E2, E21),
-    myIntersection(E1, E21, Is1).
+    myIntersection(E1, E2, Is1).
 
 myIntersection([E|E1], E2, Is) :-
  \+ member(E, E2),
@@ -103,8 +90,7 @@ myIntersection2([], _, []).
 myIntersection2([E|E1], E2, [E | Is1]) :-
     member(E, E2),
     !,
-    select(E, E2, E21),
-    myIntersection2(E1, E21, Is1).
+    myIntersection2(E1, E2, Is1).
 
 myIntersection2([_|E1], E2, Is) :-
     myIntersection2(E1, E2, Is).

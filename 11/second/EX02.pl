@@ -100,12 +100,11 @@ myIntersection([E|E1], E2, Is) :-
 % With cut
 myIntersection2([], _, []).
 
-myIntersection2([E|E1], E2, Is) :-
+myIntersection2([E|E1], E2, [E | Is1]) :-
     member(E, E2),
     !,
     select(E, E2, E21),
-    myIntersection2(E1, E21, Is1),
-    Is = [E | Is1].
+    myIntersection2(E1, E21, Is1).
 
 myIntersection2([_|E1], E2, Is) :-
     myIntersection2(E1, E2, Is).

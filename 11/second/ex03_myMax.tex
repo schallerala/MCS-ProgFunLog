@@ -31,7 +31,11 @@ for tree={edge={-latex},l+=0.9cm,s sep=1.4cm}
         node[pos=0.5,left] {\footnotesize myMax(X,Y,X)}
         node[pos=0.8,left, color=Gray!5!Red] {\footnotesize Can't unify 8 and 1 as X}
     }]
-    [Success, white, fill=Green,edge label={node[pos=0.25,right,color=gray] {Calling second clause} node[pos=0.65,right] {\footnotesize myMax(X,Y,Y).}}]
+    [Success, white, fill=Green,edge label={
+        node[pos=0.2,right,color=gray] {Calling second clause}
+        node[pos=0.5,right] {\footnotesize myMax(X,Y,Y).}
+        node[pos=0.8,right] {\footnotesize X = 8, Y = 1}
+    }]
 ]
 \end{forest}
 

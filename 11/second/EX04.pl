@@ -13,8 +13,8 @@
 % exp  -->  subExp '|' exp
 % exp --> subExp
 % subExp  -->  term subExp | term
-% term  -->  subTerm* | subTerm
-% subTerm -->  <char> | . | '(' exp ')'
+% term  -->  subTerm '*' | subTerm
+% subTerm -->  <char> | '.' | '(' exp ')'
 
 exp(exp(or(exp(SubA), SubB))) --> subExp(SubA), ['|'], { ! }, exp(SubB). % cut nessary, else, [a, '|', b] would return 2 results: exp(or(exp([char(a)]),exp([char(b)]))), exp([char(a),char('|'),char(b)])
 exp(exp(Sub)) --> subExp(Sub).
@@ -40,7 +40,7 @@ subTerm(char(C)) --> [C], { char_type(C, ascii) }.
 % +=============================+===================================================================+
 % | Règle                       | Arbre syntaxique                                                  |
 % +=============================+===================================================================+
-% | exp -->  subExp '|' exp     | exp(or(<arbre synt. de subExp>,<arbre synt. de exp>))             |
+% | exp -->  subExp '|' exp     | exp(or(exp(<arbre synt. de subExp>),<arbre synt. de exp>))        |
 % +-----------------------------+-------------------------------------------------------------------+
 % | exp --> subExp              | exp(<arbre syntaxique de subExp>)                                 |
 % +-----------------------------+-------------------------------------------------------------------+
@@ -48,7 +48,7 @@ subTerm(char(C)) --> [C], { char_type(C, ascii) }.
 % +-----------------------------+-------------------------------------------------------------------+
 % | subExp --> term             | [<arbre syntaxique de term>]                                      |
 % +-----------------------------+-------------------------------------------------------------------+
-% | term --> subTerm*           | Iter(<arbre syntaxique de subTerm>)                               |
+% | term --> subTerm '*'        | iter(<arbre syntaxique de subTerm>)                               |
 % |                             | Exemples : iter(char(a)), iter(point)                             |
 % +-----------------------------+-------------------------------------------------------------------+
 % | subTerm --> <char>          | char(<char>)                                                      |

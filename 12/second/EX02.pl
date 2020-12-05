@@ -1,5 +1,5 @@
 % Partie 2
-:- ['EX02_annexe'].
+:- ['../EX02_annexe'].
 
 isRule([r,'_'|_]). 
 

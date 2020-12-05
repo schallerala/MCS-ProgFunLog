@@ -152,13 +152,13 @@ test(step_two_example, [nondet]) :-
 
 % TODO review: Don't know why they don't work, but I strongly believe it should.
 %   Also tried, simply running them from the interpreter in the terminal.
-test(step_three_simple_a) :-
+test(step_three_simple_a, [nondet]) :-
     generateRules([r_1, '->', a, '|', b]),
     r_1([a],[]),
     r_1([b],[]),
     retractall(r_1(_, _, _)).
 
-test(step_three_gen_expression) :-
+test(step_three_gen_expression, [nondet]) :-
     generateRules([r_1, '->', r_2, r_1, '|', r_2, r_2, '->', a, '|', b]),
     r_1([a,a,b],[]),
     retractall(r_1(_, _, _)),

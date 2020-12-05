@@ -125,8 +125,6 @@ generateRules(Rules) :-
 
 
 % Test with the given examples
-
-:- dynamic (r_1/2).
 :- set_prolog_flag(double_quotes, chars).
 :- begin_tests(exercise02).
 
@@ -148,21 +146,19 @@ test(step_two_example, [nondet]) :-
     grammar(RL, [r_1, '->', r_2, r_1, '|', r_2, r_2, '->', a, '|', b],[]),
     assertion(RL == [(r_1-->r_2, r_1), (r_1-->r_2), (r_2-->[a]), (r_2-->[b])]).
 
-
-
 % TODO review: Don't know why they don't work, but I strongly believe it should.
 %   Also tried, simply running them from the interpreter in the terminal.
 test(step_three_simple_a, [nondet]) :-
-    generateRules([r_1, '->', a, '|', b]),
-    r_1([a],[]),
-    r_1([b],[]),
-    retractall(r_1(_, _, _)).
+    generateRules([r_test1, '->', a, '|', b]),
+    r_test1([a],[]),
+    r_test1([b],[]),
+    retractall(r_test1(_, _, _)).
 
 test(step_three_gen_expression, [nondet]) :-
-    generateRules([r_1, '->', r_2, r_1, '|', r_2, r_2, '->', a, '|', b]),
-    r_1([a,a,b],[]),
-    retractall(r_1(_, _, _)),
-    retractall(r_2(_, _, _)).
+    generateRules([r_test1, '->', r_test2, r_test1, '|', r_test2, r_test2, '->', a, '|', b]),
+    r_test1([a,a,b],[]),
+    retractall(r_test1(_, _, _)),
+    retractall(r_test2(_, _, _)).
 
 
 :- end_tests(exercise02).

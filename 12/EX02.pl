@@ -125,7 +125,6 @@ generateRules(Rules) :-
 
 
 % Test with the given examples
-:- set_prolog_flag(double_quotes, chars).
 :- begin_tests(exercise02).
 
 

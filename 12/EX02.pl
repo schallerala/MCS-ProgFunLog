@@ -40,9 +40,9 @@
 
 atom_starts_like_rule_name(A) :-
     atom_chars(A, Chars),
-    prefix([r, '_'], Chars). % TODO review: not authorized?
+    prefix([r, '_'], Chars).
 not_special_character(A) :-
-    not(member(A, ['->', '|'])). % TODO review: not authorized?
+    not(member(A, ['->', '|'])).
 
 step_1_grammar --> step_1_rule.
 step_1_grammar --> step_1_rule, step_1_grammar.
@@ -76,14 +76,13 @@ step_1_ruleBodyPart --> [A], { not(atom_starts_like_rule_name(A)), not_special_c
 
 produces_tuple(RN, E, T) :-
     transformListInTermWithoutFunctor(E, E2),
-    T = (RN --> E2). % Perso je comprends pas comment (RN --> (r_1, r_2)) donne (RN --> r_1, r_2)...
+    T = (RN --> E2).
 
 
 grammar(RL) --> rule(RL).
-grammar(Rules) --> rule(RL), grammar(RLs), { append(RL, RLs, Rules) }. % TODO review: not authorized?
+grammar(Rules) --> rule(RL), grammar(RLs), { append(RL, RLs, Rules) }.
 
-rule(Rules) --> ruleName(RN), ['->'], ruleBodies(RBs), { maplist(produces_tuple(RN), RBs, Rules) }. % TODO review: not authorized?
-
+rule(Rules) --> ruleName(RN), ['->'], ruleBodies(RBs), { maplist(produces_tuple(RN), RBs, Rules) }.
 ruleName(RN) --> [RN], { atom_starts_like_rule_name(RN) }.
 
 ruleBodies([RB]) --> ruleBody(RB).

@@ -14,6 +14,8 @@
 % Exemple : ?- insertTree(5,[4, [], [7, [],[] ] ],T). est vrai si T= [4, [], [7, [5, [], [] ], [] ] ]
 
 % QUESTION: si V == N, c'est bien un échec ?
+insertTree(V,[],[V,[],[]]).
+
 insertTree(V,[N, [], R],[N,[V,[],[]],R]):-
     V < N.
 insertTree(V, [N,L,R], [N,NT,R]):-
@@ -42,18 +44,13 @@ searchTree(V,[N,_,R]):-
 % Attention : le ième élément de NodeList est ajouté à l’arbre construit à partir des i-1 premiers éléments de la liste.
 % Exemple : ?- constructTree([6,3,12,8],T).
 % T = [6, [3, [], []], [12, [8, [], []], []]]
+    
+constructTree([],[]).
+constructTree(List,Tree):-
+    construct(List, [],Tree).
 
-% NOT CORRECT
-% constructTree([],_).
-% constructTree([N|Ns],Tree):-
-%     construct(Ns,[N,[],[]], Tree).
-
-% construct([T|Ts], [M,L,R], L1):-
-%     T < M,
-%     insertTree(T, L, L1),
-%     construct(Ns,L,L1).
-
-% construct([T|Ts], [M,L,R], R1):-
-%     T > M,
-%     insertTree(T, R, R1),
-%     construct(Ns,R, R1).
+construct([],TreeIn,TreeIn).
+construct([N|Ns],TreeIn,TreeOut):-
+    insertTree(N,TreeIn, Ts),
+    !,
+    construct(Ns,Ts,TreeOut).

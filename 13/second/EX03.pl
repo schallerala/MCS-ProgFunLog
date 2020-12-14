@@ -49,7 +49,7 @@ insertTree(NewV, [V, Inf, Supp], [V, Inf, Supp1]) :-
     insertTree(NewV, Supp, Supp1).
 
 
-searchTree(_, []) :- fail.
+% searchTree(_, []) :- fail.
 searchTree(V, [V, _, _]).
 searchTree(VSearch, [V, Inf, _]) :-
     VSearch < V, !,

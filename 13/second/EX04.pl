@@ -3,13 +3,10 @@
 %   a) Le prédicat maplist en utilisant le prédicat prédéfini include
 %   b) Un prédicat analogue à la fonction foldl d’Haskell
 
-% TODO myMapList. Not sure what is expected, as include and maplist don't behave
-%   the same way. For example:
-%       ?- maplist(>(3), [3]).
-%       false.
-%
-%       ?- include(>(3), [3], T).
-%       T = [].                        => true, in opposition to the previous maplist call
+myMapList(Goal, Ls):-
+    include(Goal, Ls, Ls2),
+    same_length(Ls, Ls2).
+
 
 myFoldl(Goal, [], []).
 myFoldl(Goal, [X | Xs], [Y | Ys]) :-
@@ -17,11 +14,18 @@ myFoldl(Goal, [X | Xs], [Y | Ys]) :-
     myFoldl(Goal, Xs, Ys).
 
 
+
+
+isEven(X) :-
+    mod(X, 2) =:= 0.
+
 :- begin_tests(exercise04).
 
+test(myMapListExample) :-
+    myMapList(isEven,[2,12,24]).
 
-% test(myMapList, [nondet]) :-
-%     myMapList(is(3),[2,3,5,8]).
+test(myMapListFail, [fail]) :-
+    myMapList(is(3),[2,3,5,8]).
 
 
 test(ownFoldl, [nondet]) :-
